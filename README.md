@@ -1,8 +1,13 @@
 
+## Front end of this project repositor:
+
+`https://github.com/alimulrazi/Angular-10-authentication-with-user-management.git`
+
 ## About This Project
 
 I have created the project for the learning and sharing purpose. Here I have included php artisan command, data validation, accessor and mutator, apiResource, Resource collection, Routing, Routing group, and many more :
 
+- [Front end of this API Angular-10-authentication-with-user-management](https://github.com/alimulrazi/Angular-10-authentication-with-user-management)
 - [Laravel Coding Guidelines](https://xqsit.github.io/laravel-coding-guidelines/docs/naming-conventions/)
 - [Laravel Naming Conventions](https://webdevetc.com/blog/laravel-naming-conventions/)
 - [Laravel CRUD Generator](https://github.com/misterdebug/crud-generator-laravel).
@@ -38,11 +43,24 @@ To quickly generate an API resource controller that does not include the `create
 
 `php artisan make:controller ProductController --api`
 
-## Learning Laravel
+## Add Swagger (OpenAPI) to your Laravel 8.23 project — step-by-step
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 1) Install packages
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+`composer update darkaonline/l5-swagger --with-all-dependencies`
+# (optional/if needed) ensure swagger-php is installed — recommended for OpenAPI 3:
+`composer require zircote/swagger-php:^3.3`
 
-If you don't feel like reading, [Lara casts](https://laracasts.com) can help. Lara casts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 2) Publish config & views
 
+`php artisan vendor:publish --provider="L5Swagger\L5SwaggerServiceProvider"`
+
+`php artisan l5-swagger:generate`
+
+`php artisan route:list | findstr swagger`
+
+### Swagger UI
+`http://localhost:8001/api/documentation`
+
+### JSON docs
+`http://localhost:8001/docs (not /docs?api-docs.json`

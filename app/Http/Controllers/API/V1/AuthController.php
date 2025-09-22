@@ -13,6 +13,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @OA\Info(
+ *     title="Laravel 10 API",
+ *     version="1.0.0",
+ *     description="Laravel API Documentation using Swagger"
+ * )
+ */
+
 class AuthController extends Controller
 {
     public function register(Request $request): JsonResponse
@@ -40,40 +48,34 @@ class AuthController extends Controller
         return response()->json($response, 201);
     }
 
-    // public function login(Request $request): JsonResponse
-    // {
-    //     $data = [];
-    //     $fields = $request->validate([
-    //         'email' => 'required|string',
-    //         'password' => 'required|string'
-    //     ]);
-
-    //     if (!Auth::attempt($request->only(['email', 'password']))) {
-    //         return $this->error('', 'Credentials do not match', 401);
-    //     }
-
-    //     // check email;
-    //     $user = User::where('email', $fields['email'])->first();
-
-    //     if (!$user || !Hash::check($fields['password'], $user->password)) {
-    //         return response()->json([
-    //             'status' => 'failed',
-    //             'message' => 'Invalid Credentials'
-    //         ], 401);
-    //     }
-
-    //     $data['token'] = $user->createToken($request->email)->plainTextToken;
-    //     $data['user'] = $user;
-
-    //     $response = [
-    //         'status' => 'success',
-    //         'message' => 'User is logged in successfully.',
-    //         'data' => $data,
-    //     ];
-
-    //     return response()->json($response, 201);
-    // }
-
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="User login",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","password"},
+     *             @OA\Property(property="email", type="string", format="email"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="accessToken", type="string"),
+     *             @OA\Property(property="refreshToken", type="string"),
+     *             @OA\Property(property="tokenType", type="string"),
+     *             @OA\Property(property="expiresIn", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid credentials"
+     *     )
+     * )
+     */
     public function login(Request $request) {
         $request->validate([
             'email' => 'required|email',
