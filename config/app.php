@@ -168,6 +168,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        // custom service provider
+        App\Providers\ViewShareServiceProvider::class,
+
+        // debugbar for laravel
+        Barryvdh\Debugbar\ServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/backup
+/public/admin/scss
+/public/admin/vendor

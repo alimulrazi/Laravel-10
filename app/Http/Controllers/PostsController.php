@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Tag;
 
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
+use App\Http\Controllers\Controller;
 
 class PostsController extends Controller
 {
@@ -16,8 +17,22 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts= Post::all();
-        return view('posts.index', ['posts'=>$posts]);
+        $posts = Post::all();
+        return view('posts.index', ['posts' => $posts]);
+    }
+
+    public function manyToMany()
+    {
+        $tag = Tag::first();
+        // $post = Post::first();
+        // $post = Post::with('tags')->first();
+
+        // $post->tags()->attach($tag->id);
+        // $post->tags()->attach($tag);
+        // $post->tags()->attach([2, 3, 4, 5]);
+        $posts = Post::with('tags')->get();
+        dd($posts);
+        return view('posts.one-to-many', ['posts' => $posts]);
     }
 
     /**
@@ -39,8 +54,8 @@ class PostsController extends Controller
     public function store(PostRequest $request)
     {
         $post = new Post;
-		$post->title = $request->input('title');
-		$post->content = $request->input('content');
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
         $post->save();
 
         return to_route('posts.index');
@@ -55,7 +70,7 @@ class PostsController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.show',['post'=>$post]);
+        return view('posts.show', ['post' => $post]);
     }
 
     /**
@@ -67,7 +82,7 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.edit',['post'=>$post]);
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -80,8 +95,8 @@ class PostsController extends Controller
     public function update(PostRequest $request, $id)
     {
         $post = Post::findOrFail($id);
-		$post->title = $request->input('title');
-		$post->content = $request->input('content');
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
         $post->save();
 
         return to_route('posts.index');
