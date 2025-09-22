@@ -48,7 +48,7 @@ To quickly generate an API resource controller that does not include the `create
 ## 1) Install packages
 
 `composer update darkaonline/l5-swagger --with-all-dependencies`
-# (optional/if needed) ensure swagger-php is installed — recommended for OpenAPI 3:
+### (optional/if needed) ensure swagger-php is installed — recommended for OpenAPI 3:
 `composer require zircote/swagger-php:^3.3`
 
 ## 2) Publish config & views
@@ -64,3 +64,6 @@ To quickly generate an API resource controller that does not include the `create
 
 ### JSON docs
 `http://localhost:8001/docs (not /docs?api-docs.json`
+
+## Regenerate Swagger documentation with new API endpoints
+php artisan l5-swagger:generate

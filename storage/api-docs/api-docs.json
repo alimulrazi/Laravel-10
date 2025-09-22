@@ -6,8 +6,81 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Public - Authentication"
+                ],
+                "summary": "User registration",
+                "operationId": "88e4ea830d17e1512508743901127522",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "minLength": 6
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
+                "tags": [
+                    "Public - Authentication"
+                ],
                 "summary": "User login",
                 "operationId": "057913d2cd195a2cd82f58027a18050f",
                 "requestBody": {
@@ -63,6 +136,116 @@
                     }
                 }
             }
+        },
+        "/api/refresh": {
+            "post": {
+                "tags": [
+                    "Public - Authentication"
+                ],
+                "summary": "Refresh access token",
+                "operationId": "31bed10201b3fa83154e82065da9e4e2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "refreshToken"
+                                ],
+                                "properties": {
+                                    "refreshToken": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token refreshed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "accessToken": {
+                                            "type": "string"
+                                        },
+                                        "tokenType": {
+                                            "type": "string"
+                                        },
+                                        "expiresIn": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired refresh token"
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Protected - Authentication"
+                ],
+                "summary": "User logout",
+                "operationId": "123b6a1d11c0b146b02d569fe51da5a8",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
-    }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Enter token in format (Bearer <token>)",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Public - Authentication",
+            "description": "Public - Authentication"
+        },
+        {
+            "name": "Protected - Authentication",
+            "description": "Protected - Authentication"
+        }
+    ]
 }

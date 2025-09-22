@@ -14,7 +14,9 @@ class RefreshToken extends Model
         'expires_at',
     ];
 
-    protected $dates = ['expires_at'];
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
 
     // A refresh token belongs to a user
     public function user()
